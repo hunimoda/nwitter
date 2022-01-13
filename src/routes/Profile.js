@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { authService, dbService } from "../fbase";
 
-const Profile = ({ userObject }) => {
+const Profile = ({ userObject, refreshUser }) => {
 	const history = useHistory();
 
 	const [displayName, setDisplayName] = useState(userObject.displayName);
@@ -27,6 +27,7 @@ const Profile = ({ userObject }) => {
 
 		if (displayName !== userObject.displayName) {
 			await userObject.updateProfile({ displayName });
+			refreshUser();
 		}
 	};
 
