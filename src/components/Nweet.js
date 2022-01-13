@@ -42,8 +42,6 @@ const Nweet = ({ nweet, isOwner }) => {
 		event.preventDefault();
 		await dbService.doc(`nweets/${nweet.id}`).update({
 			content: newNweet,
-			createdAt: nweet.createdAt,
-			creatorID: nweet.creatorID,
 		});
 	};
 
