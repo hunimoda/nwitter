@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Nweet from "../components/Nweet";
 import { dbService } from "../fbase";
 
 const Home = ({ userObject }) => {
@@ -31,7 +32,6 @@ const Home = ({ userObject }) => {
 		} = event;
 
 		setNweet(value);
-		console.log(value);
 	};
 
 	return (
@@ -48,10 +48,11 @@ const Home = ({ userObject }) => {
 			</form>
 			<div>
 				{nweets.map((nweet) => (
-					<div key={nweet.id}>
-						<h4>{nweet.content}</h4>
-						<span>{nweet.createdAt}</span>
-					</div>
+					<Nweet
+						key={nweet.id}
+						nweet={nweet}
+						isOwner={nweet.creatorID === userObject.uid}
+					/>
 				))}
 			</div>
 		</div>
