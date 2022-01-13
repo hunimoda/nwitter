@@ -1,0 +1,30 @@
+.globalNav ul {
+	display: flex;
+	justify-content: center;
+	margin-top: 50px;
+}
+
+.globalNav i {
+	font-size: 50px;
+	color: var(--blue);
+}
+
+.home,
+.profile {
+	width: 21vw;
+	text-decoration: none;
+}
+.profile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-left: 10vw;
+}
+
+.profile span {
+	text-align: center;
+	color: white;
+	font-size: 14px;
+	margin-top: 8px;
+	line-height: 16px;
+}

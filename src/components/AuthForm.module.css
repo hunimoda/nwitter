@@ -29,6 +29,7 @@
 .error {
 	color: #c24f4d;
 	text-align: center;
+	font-size: 12px;
 }
 
 .toggle {

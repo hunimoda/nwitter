@@ -6,7 +6,7 @@ const AuthForm = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
-	const [newAccount, setNewAccount] = useState(true);
+	const [newAccount, setNewAccount] = useState(false);
 
 	const onAuthSubmit = async (event) => {
 		event.preventDefault();
