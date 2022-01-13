@@ -21,7 +21,9 @@ const Nweet = ({ nweet, isOwner }) => {
 
 		if (isOkToDelete) {
 			await dbService.doc(`nweets/${nweet.id}`).delete();
-			await storageService.refFromURL(nweet.imageURL).delete();
+			if (nweet.imageURL) {
+				await storageService.refFromURL(nweet.imageURL).delete();
+			}
 		}
 	};
 

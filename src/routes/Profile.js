@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import Nweet from "../components/Nweet";
 import { authService, dbService } from "../fbase";
 
 const Profile = ({ userObject, refreshUser }) => {
 	const history = useHistory();
 
 	const [displayName, setDisplayName] = useState(userObject.displayName);
+	const [nweets, setNweets] = useState([]);
 
 	const onLogoutClick = () => {
 		authService.signOut();
@@ -14,11 +16,18 @@ const Profile = ({ userObject, refreshUser }) => {
 
 	useEffect(() => {
 		(async () => {
-			const nweets = await dbService
+			await dbService
 				.collection("nweets")
 				.where("creatorID", "==", userObject.uid)
 				.orderBy("createdAt")
-				.get();
+				.onSnapshot((snapshot) => {
+					const dbNweets = [];
+
+					snapshot.docs.forEach((doc) => {
+						dbNweets.push({ id: doc.id, ...doc.data() });
+					});
+					setNweets(dbNweets);
+				});
 		})();
 	}, [userObject.uid]);
 
@@ -45,6 +54,16 @@ const Profile = ({ userObject, refreshUser }) => {
 				<button>Update Profile</button>
 			</form>
 			<button onClick={onLogoutClick}>Log Out</button>
+			<div>
+				<h3>My Nweets</h3>
+				{nweets.length !== 0 ? (
+					nweets.map((nweet) => (
+						<Nweet key={nweet.id} nweet={nweet} isOwner={true} />
+					))
+				) : (
+					<p>No nweets found</p>
+				)}
+			</div>
 		</>
 	);
 };
