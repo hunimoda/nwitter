@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
-import { authService } from "../fbase";
+import { authService, dbService } from "../fbase";
 
-const Profile = () => {
+const Profile = ({ userObject }) => {
 	const history = useHistory();
 
 	const onLogoutClick = () => {
 		authService.signOut();
 		history.push("/");
 	};
+
+	useEffect(() => {
+		(async () => {
+			const nweets = await dbService
+				.collection("nweets")
+				.where("creatorID", "==", userObject.uid)
+				.orderBy("createdAt")
+				.get();
+			console.log(nweets.docs.map((doc) => doc.data()));
+		})();
+	}, [userObject.uid]);
 
 	return (
 		<>
