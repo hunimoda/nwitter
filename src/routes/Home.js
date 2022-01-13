@@ -22,15 +22,27 @@ const Home = ({ userObject }) => {
 
 	const onSubmit = async (event) => {
 		event.preventDefault();
-		const fileRef = storageService.ref().child(`${userObject.uid}/${uuidv4()}`);
-		const response = await fileRef.putString(image, "data_url");
-		console.log(response);
-		// await dbService.collection("nweets").add({
-		// 	content: nweet,
-		// 	createdAt: Date.now(),
-		// 	creatorID: userObject.uid,
-		// });
-		// setNweet("");
+
+		const newNweet = {
+			content: nweet,
+			createdAt: Date.now(),
+			creatorID: userObject.uid,
+		};
+
+		if (image) {
+			const fileRef = storageService
+				.ref()
+				.child(`${userObject.uid}/${uuidv4()}`);
+			const response = await fileRef.putString(image, "data_url");
+			const imageURL = await response.ref.getDownloadURL();
+
+			newNweet.imageURL = imageURL;
+		}
+
+		await dbService.collection("nweets").add(newNweet);
+
+		setNweet("");
+		onClearImageClick();
 	};
 
 	const onChange = (event) => {

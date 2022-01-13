@@ -7,7 +7,6 @@ const Nweet = ({ nweet, isOwner }) => {
 
 	useEffect(() => {
 		setEditing(false);
-		console.log("false");
 	}, [nweet.content]);
 
 	const date = new Date(nweet.createdAt);
@@ -64,6 +63,9 @@ const Nweet = ({ nweet, isOwner }) => {
 			) : (
 				<>
 					<h4>{nweet.content}</h4>
+					{nweet.imageURL && (
+						<img src={nweet.imageURL} alt="invalid" width="250px" />
+					)}
 					<span>{dateString}</span>
 					{isOwner && (
 						<>
