@@ -183,4 +183,5 @@ body {
 }
 :root {
 	--blue: #089ffe;
+	--common-width: 85vw;
 }

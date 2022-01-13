@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "../fbase";
+import classes from "./NweetFactory.module.css";
 
 const NweetFactory = ({ userObject }) => {
 	const [nweet, setNweet] = useState("");
@@ -58,25 +59,38 @@ const NweetFactory = ({ userObject }) => {
 	};
 
 	return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={onSubmit} className={classes.nweetFactory}>
 			<input
 				value={nweet}
 				onChange={onChange}
 				type="text"
 				placeholder="What's on your mind?"
 				maxLength={120}
+				className={classes.nweetInput}
 			/>
+			{!image && (
+				<label htmlFor="add-photo" className={classes.addPhoto}>
+					Add photos
+					<i className="fas fa-plus" />
+				</label>
+			)}
 			<input
 				ref={imageInputRef}
+				id="add-photo"
 				type="file"
 				accept="image/*"
 				onChange={onImageChange}
+				className={classes.imageInput}
 			/>
-			<button>Nweet</button>
+			<button className={classes.createButton}>
+				<i className="fas fa-arrow-right" />
+			</button>
 			{image && (
 				<div>
-					<img src={image} alt="invalid" width="250px" />
-					<button onClick={onClearImageClick}>Cancel</button>
+					<img src={image} alt="invalid" className={classes.nweetImage} />
+					<button onClick={onClearImageClick} className={classes.removeImage}>
+						Remove <i className="fas fa-times" />
+					</button>
 				</div>
 			)}
 		</form>

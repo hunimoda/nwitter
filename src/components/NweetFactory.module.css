@@ -1,0 +1,67 @@
+.nweetFactory {
+	width: var(--common-width);
+	margin: 30px auto 0;
+	position: relative;
+}
+
+.nweetInput {
+	background: transparent;
+	font-size: 16px;
+	padding: 16px;
+	padding-right: 64px;
+	border: 1px solid var(--blue);
+	border-radius: 100px;
+	width: 100%;
+	box-sizing: border-box;
+	color: white;
+	margin-bottom: 10px;
+}
+
+.nweetInput::placeholder {
+	color: #696969;
+}
+
+.createButton {
+	background: var(--blue);
+	width: 53px;
+	height: 53px;
+	border: none;
+	border-radius: 100px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.createButton i {
+	font-size: 20px;
+	color: white;
+}
+
+.addPhoto,
+.removeImage {
+	color: var(--blue);
+	text-align: center;
+	width: fit-content;
+	margin: 0 auto;
+	display: block;
+	padding: 10px 0;
+	background: transparent;
+	border: none;
+	font-size: 16px;
+}
+
+.addPhoto i {
+	margin-left: 10px;
+}
+
+.imageInput {
+	display: none;
+}
+
+.nweetImage {
+	max-width: 45vw;
+	max-height: 45vw;
+	display: block;
+	margin: 20px auto 0;
+	border-radius: 3vw;
+}

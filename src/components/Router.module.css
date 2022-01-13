@@ -1,4 +1,4 @@
 .auth {
-	width: 85vw;
+	width: var(--common-width);
 	margin: 120px auto 0;
 }
