@@ -12,7 +12,7 @@ import Navigation from "./Navigation";
 const AppRouter = ({ isLoggedIn, userObject }) => {
 	return (
 		<Router>
-			{isLoggedIn && <Navigation />}
+			{isLoggedIn && userObject && <Navigation userObject={userObject} />}
 			<Switch>
 				{isLoggedIn ? (
 					<>

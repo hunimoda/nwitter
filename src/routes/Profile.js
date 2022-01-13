@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { authService, dbService } from "../fbase";
 
 const Profile = ({ userObject }) => {
 	const history = useHistory();
+
+	const [displayName, setDisplayName] = useState(userObject.displayName);
 
 	const onLogoutClick = () => {
 		authService.signOut();
@@ -17,12 +19,30 @@ const Profile = ({ userObject }) => {
 				.where("creatorID", "==", userObject.uid)
 				.orderBy("createdAt")
 				.get();
-			console.log(nweets.docs.map((doc) => doc.data()));
 		})();
 	}, [userObject.uid]);
 
+	const onProfileSubmit = async (event) => {
+		event.preventDefault();
+
+		if (displayName !== userObject.displayName) {
+			await userObject.updateProfile({ displayName });
+		}
+	};
+
+	const onNameChange = (event) => setDisplayName(event.target.value);
+
 	return (
 		<>
+			<form onSubmit={onProfileSubmit}>
+				<input
+					onChange={onNameChange}
+					type="text"
+					placeholder="Display name"
+					value={displayName}
+				/>
+				<button>Update Profile</button>
+			</form>
 			<button onClick={onLogoutClick}>Log Out</button>
 		</>
 	);
