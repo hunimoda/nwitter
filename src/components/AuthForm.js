@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { authService } from "../fbase";
+import classes from "./AuthForm.module.css";
 
 const AuthForm = () => {
 	const [email, setEmail] = useState("");
@@ -46,7 +47,8 @@ const AuthForm = () => {
 
 	return (
 		<>
-			<form onSubmit={onAuthSubmit}>
+			<form onSubmit={onAuthSubmit} className={classes.authForm}>
+				<i className="fab fa-twitter" />
 				<input
 					name="email"
 					type="email"
@@ -64,9 +66,9 @@ const AuthForm = () => {
 					onChange={onInputChange}
 				/>
 				<button>{newAccount ? "Create Account" : "Log In"}</button>
-				{error}
+				<p className={classes.error}>{error}</p>
 			</form>
-			<span onClick={onToggleAccountClick}>
+			<span onClick={onToggleAccountClick} className={classes.toggle}>
 				{newAccount ? "Sign In" : "Create Account"}
 			</span>
 		</>
