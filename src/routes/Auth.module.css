@@ -1,0 +1,16 @@
+.socialAuth {
+	display: flex;
+	justify-content: space-between;
+}
+
+.socialAuth button {
+	font-size: 13px;
+	background: white;
+	padding: 10px;
+	border-radius: 100px;
+	border: none;
+}
+
+.socialAuth i {
+	margin-left: 5px;
+}

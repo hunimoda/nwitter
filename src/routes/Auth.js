@@ -1,8 +1,9 @@
 import { authService } from "../fbase";
 import firebase from "firebase/app";
 import AuthForm from "../components/AuthForm";
+import classes from "./Auth.module.css";
 
-const Auth = () => {
+const Auth = ({ className }) => {
 	const onSocialClick = async (event) => {
 		const {
 			target: { name },
@@ -24,14 +25,16 @@ const Auth = () => {
 	};
 
 	return (
-		<div>
+		<div className={className}>
 			<AuthForm />
-			<div>
+			<div className={classes.socialAuth}>
 				<button name="google" onClick={onSocialClick}>
 					Continue with Google
+					<i className="fab fa-google" />
 				</button>
 				<button name="github" onClick={onSocialClick}>
 					Continue with Github
+					<i className="fab fa-github" />
 				</button>
 			</div>
 		</div>
