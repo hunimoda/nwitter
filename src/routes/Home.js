@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Nweet from "../components/Nweet";
 import { dbService } from "../fbase";
 
 const Home = ({ userObject }) => {
 	const [nweet, setNweet] = useState("");
 	const [nweets, setNweets] = useState([]);
+	const [image, setImage] = useState(null);
+
+	const imageInputRef = useRef();
 
 	useEffect(() => {
 		dbService.collection("nweets").onSnapshot((snapshot) => {
@@ -41,9 +44,14 @@ const Home = ({ userObject }) => {
 		const file = files[0];
 		const reader = new FileReader();
 
-		reader.onloadend = (readerEvent) => console.log(readerEvent.target.result);
-		console.log("ABC");
+		reader.onloadend = (readerEvent) =>
+			setImage(readerEvent.currentTarget.result);
 		reader.readAsDataURL(file);
+	};
+
+	const onClearImageClick = () => {
+		setImage(null);
+		imageInputRef.current.value = null;
 	};
 
 	return (
@@ -56,8 +64,19 @@ const Home = ({ userObject }) => {
 					placeholder="What's on your mind?"
 					maxLength={120}
 				/>
-				<input type="file" accept="image/*" onChange={onImageChange} />
+				<input
+					ref={imageInputRef}
+					type="file"
+					accept="image/*"
+					onChange={onImageChange}
+				/>
 				<button>Nweet</button>
+				{image && (
+					<div>
+						<img src={image} alt="invalid" width="250px" />
+						<button onClick={onClearImageClick}>Cancel</button>
+					</div>
+				)}
 			</form>
 			<div>
 				{nweets.map((nweet) => (
