@@ -15,6 +15,7 @@
 	box-sizing: border-box;
 	color: white;
 	margin-bottom: 10px;
+	outline: none;
 }
 
 .nweetInput::placeholder {
