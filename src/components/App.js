@@ -46,9 +46,11 @@ function App() {
 			) : (
 				<p>Wait...</p>
 			)}
-			<footer className="copyright">
-				&copy; Nwitter {new Date().getFullYear()}
-			</footer>
+			{isLoggedIn && (
+				<footer className="copyright">
+					&copy; Nwitter {new Date().getFullYear()}
+				</footer>
+			)}
 		</>
 	);
 }
