@@ -10,8 +10,7 @@ const Nweet = ({ nweet, isOwner }) => {
 		setEditing(false);
 	}, [nweet.text]);
 
-	const wasEdited = Boolean(nweet.editedAt);
-	const date = new Date(wasEdited ? nweet.editedAt : nweet.createdAt);
+	const date = new Date(nweet.timestamp);
 	date.setHours(date.getHours() + 9);
 
 	const dateString = date.toISOString().replace("T", " ").substring(0, 19);
@@ -60,8 +59,10 @@ const Nweet = ({ nweet, isOwner }) => {
 		event.preventDefault();
 		await dbService.doc(`nweets/${nweet.id}`).update({
 			text: newNweet,
-			editedAt: Date.now(),
+			wasEdited: true,
+			timestamp: Date.now(),
 		});
+		window.scrollTo(0, 0);
 	};
 
 	return (
@@ -82,7 +83,7 @@ const Nweet = ({ nweet, isOwner }) => {
 						<button type="button" onClick={toggleEditing}>
 							Cancel
 						</button>
-						<button>Update</button>
+						{nweet.text !== newNweet && <button>Update</button>}
 					</div>
 					<textarea
 						value={newNweet}
@@ -107,7 +108,7 @@ const Nweet = ({ nweet, isOwner }) => {
 						/>
 					)}
 					<p className={classes.date}>
-						{wasEdited ? "Edited at" : "Created at"} {dateString}
+						{nweet.wasEdited ? "Edited at" : "Created at"} {dateString}
 					</p>
 				</>
 			)}

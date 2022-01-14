@@ -13,7 +13,7 @@ const NweetFactory = ({ userObject }) => {
 
 		const newNweet = {
 			text: nweet,
-			createdAt: Date.now(),
+			timestamp: Date.now(),
 			creatorID: userObject.uid,
 		};
 

@@ -19,7 +19,7 @@ const Profile = ({ userObject, refreshUser }) => {
 			await dbService
 				.collection("nweets")
 				.where("creatorID", "==", userObject.uid)
-				.orderBy("createdAt")
+				.orderBy("timestamp")
 				.onSnapshot((snapshot) => {
 					const dbNweets = [];
 
