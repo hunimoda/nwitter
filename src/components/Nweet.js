@@ -103,7 +103,6 @@ const Nweet = ({ nweet, isOwner }) => {
 						<img
 							src={nweet.image}
 							alt="invalid"
-							width="250px"
 							className={classes.nweetImage}
 						/>
 					)}

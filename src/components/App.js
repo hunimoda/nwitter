@@ -46,7 +46,9 @@ function App() {
 			) : (
 				<p>Wait...</p>
 			)}
-			<footer>&copy; Nwitter {new Date().getFullYear()}</footer>
+			<footer className="copyright">
+				&copy; Nwitter {new Date().getFullYear()}
+			</footer>
 		</>
 	);
 }

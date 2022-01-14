@@ -1,6 +1,6 @@
 .nweetFactory {
 	width: var(--common-width);
-	margin: 30px auto 0;
+	margin: 0 auto;
 	position: relative;
 }
 

@@ -181,7 +181,15 @@ select {
 body {
 	background: black;
 }
+
 :root {
 	--blue: #089ffe;
 	--common-width: 85vw;
+}
+
+.copyright {
+	color: #777;
+	font-size: 24px;
+	text-align: center;
+	padding: 60px 0;
 }

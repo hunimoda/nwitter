@@ -1,0 +1,51 @@
+.profileForm {
+	width: var(--common-width);
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.profileForm * {
+	font-size: 16px;
+	padding: 16px 0;
+	margin-bottom: 16px;
+	text-align: center;
+	border: none;
+	border-radius: 100px;
+}
+
+.profileForm input {
+	background: white;
+	outline: none;
+}
+
+.profileForm button {
+	background: var(--blue);
+	color: white;
+}
+
+.divideBar {
+	width: var(--common-width);
+	height: 2px;
+	margin: 10px auto 60px;
+	background-color: #777;
+}
+
+.logoutButton {
+	width: var(--common-width);
+	display: block;
+	margin: 0 auto;
+	font-size: 16px;
+	padding: 16px 0;
+	border: none;
+	border-radius: 100px;
+	background: rgb(255, 126, 126);
+	color: white;
+}
+
+.myNweets {
+	width: var(--common-width);
+	margin: 60px auto 0;
+	color: white;
+	font-size: 24px;
+}
