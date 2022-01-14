@@ -179,7 +179,7 @@ select {
 }
 
 body {
-	/* background: black; */
+	background: black;
 }
 :root {
 	--blue: #089ffe;

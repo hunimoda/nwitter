@@ -16,15 +16,12 @@ const Home = ({ userObject }) => {
 		});
 	}, []);
 
-	console.log(nweets);
-
 	return (
 		<div>
 			<NweetFactory userObject={userObject} />
 			<div>
 				{nweets.map((nweet) => (
 					<Nweet
-						userObject={userObject}
 						key={nweet.id}
 						nweet={nweet}
 						isOwner={nweet.creatorID === userObject.uid}

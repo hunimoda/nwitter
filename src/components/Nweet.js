@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { dbService, storageService } from "../fbase";
-import classes from "./Nweet.module.css";
-import NweetFactory from "./NweetFactory";
 
-const Nweet = ({ nweet, isOwner, userObject }) => {
+const Nweet = ({ nweet, isOwner }) => {
 	const [editing, setEditing] = useState(false);
-
-	const toggleEditing = () => {
-		setEditing((editing) => !editing);
-	};
+	const [newNweet, setNewNweet] = useState("");
 
 	useEffect(() => {
 		setEditing(false);
@@ -32,10 +27,42 @@ const Nweet = ({ nweet, isOwner, userObject }) => {
 		}
 	};
 
+	const toggleEditing = () => {
+		setNewNweet(nweet.content);
+		setEditing((editing) => !editing);
+	};
+
+	const onNweetChange = (event) => {
+		const {
+			target: { value },
+		} = event;
+
+		setNewNweet(value);
+	};
+
+	const onNweetSubmit = async (event) => {
+		event.preventDefault();
+		await dbService.doc(`nweets/${nweet.id}`).update({
+			content: newNweet,
+		});
+	};
+
 	return (
 		<div>
 			{editing ? (
-				<NweetFactory userObject={userObject} nweet={nweet} mode={"update"} />
+				<form onSubmit={onNweetSubmit}>
+					<input
+						type="text"
+						value={newNweet}
+						onChange={onNweetChange}
+						placeholder="Edit your nweet!"
+						required
+					/>
+					<button type="button" onClick={toggleEditing}>
+						Cancel
+					</button>
+					<button>Update Nweet</button>
+				</form>
 			) : (
 				<>
 					<h4>{nweet.content}</h4>

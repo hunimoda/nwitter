@@ -3,50 +3,42 @@ import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "../fbase";
 import classes from "./NweetFactory.module.css";
 
-const EMPTY_NWEET = { text: "", image: null };
-
-const NweetFactory = ({ userObject, nweet }) => {
-	const [newNweet, setNewNweet] = useState(nweet ?? EMPTY_NWEET);
-
+const NweetFactory = ({ userObject }) => {
+	const [nweet, setNweet] = useState("");
+	const [image, setImage] = useState(null);
 	const imageInputRef = useRef();
 
 	const onSubmit = async (event) => {
 		event.preventDefault();
 
-		if (newNweet.text === "" && newNweet.image === null) {
-			window.alert("Your nweet is empty!");
-			return;
-		}
-
-		const submitNweet = {
-			text: newNweet.text,
-			image: newNweet.image,
+		const newNweet = {
+			content: nweet,
 			createdAt: Date.now(),
-			creatorId: userObject.uid,
+			creatorID: userObject.uid,
 		};
 
-		if (newNweet.image) {
+		if (image) {
 			const fileRef = storageService
 				.ref()
 				.child(`${userObject.uid}/${uuidv4()}`);
-			const response = await fileRef.putString(newNweet.image, "data_url");
-			submitNweet.image = await response.ref.getDownloadURL();
+			const response = await fileRef.putString(image, "data_url");
+			const imageURL = await response.ref.getDownloadURL();
+
+			newNweet.imageURL = imageURL;
 		}
 
-		await dbService.collection("nweets").add(submitNweet);
+		await dbService.collection("nweets").add(newNweet);
 
-		setNewNweet(EMPTY_NWEET);
-		// onClearImageClick();
+		setNweet("");
+		onClearImageClick();
 	};
 
-	const onTextChange = (event) => {
+	const onChange = (event) => {
 		const {
-			target: { value: text },
+			target: { value },
 		} = event;
 
-		setNewNweet((nweet) => {
-			return { ...nweet, text };
-		});
+		setNweet(value);
 	};
 
 	const onImageChange = (event) => {
@@ -56,42 +48,31 @@ const NweetFactory = ({ userObject, nweet }) => {
 		const file = files[0];
 		const reader = new FileReader();
 
-		reader.onloadend = (readerEvent) => {
-			const {
-				currentTarget: { result: image },
-			} = readerEvent;
-
-			setNewNweet((nweet) => {
-				return { ...nweet, image };
-			});
-		};
+		reader.onloadend = (readerEvent) =>
+			setImage(readerEvent.currentTarget.result);
 		reader.readAsDataURL(file);
 	};
 
 	const onClearImageClick = () => {
-		setNewNweet((nweet) => {
-			return { ...nweet, image: null };
-		});
+		setImage(null);
 		imageInputRef.current.value = null;
 	};
 
 	return (
 		<form onSubmit={onSubmit} className={classes.nweetFactory}>
 			<input
-				value={newNweet.text ?? ""}
-				onChange={onTextChange}
+				value={nweet}
+				onChange={onChange}
 				type="text"
 				placeholder="What's on your mind?"
 				maxLength={120}
 				className={classes.nweetInput}
 			/>
-			{!newNweet.image && (
-				<>
-					<label htmlFor="add-photo" className={classes.addPhoto}>
-						Add photos
-						<i className="fas fa-plus" />
-					</label>
-				</>
+			{!image && (
+				<label htmlFor="add-photo" className={classes.addPhoto}>
+					Add photos
+					<i className="fas fa-plus" />
+				</label>
 			)}
 			<input
 				ref={imageInputRef}
@@ -104,13 +85,9 @@ const NweetFactory = ({ userObject, nweet }) => {
 			<button className={classes.createButton}>
 				<i className="fas fa-arrow-right" />
 			</button>
-			{newNweet.image && (
+			{image && (
 				<div>
-					<img
-						src={newNweet.image}
-						alt="invalid"
-						className={classes.nweetImage}
-					/>
+					<img src={image} alt="invalid" className={classes.nweetImage} />
 					<button onClick={onClearImageClick} className={classes.removeImage}>
 						Remove <i className="fas fa-times" />
 					</button>
