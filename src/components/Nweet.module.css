@@ -34,8 +34,9 @@
 .nweetText,
 .editText {
 	font-size: 18px;
+	font-weight: 400;
 	line-height: 22px;
-	margin: 30px 0;
+	margin: 20px 0;
 }
 
 .editText {
@@ -43,6 +44,27 @@
 	outline: none;
 	resize: none;
 	width: 100%;
+}
+
+.editControls {
+	display: flex;
+	justify-content: space-between;
+}
+
+.editControls button {
+	color: white;
+	border: none;
+	font-size: 16px;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.editControls button:first-child {
+	background: rgb(255, 164, 164);
+}
+
+.editControls button:last-child {
+	background: rgb(141, 175, 141);
 }
 
 .nweetImage {

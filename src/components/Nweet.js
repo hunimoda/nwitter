@@ -10,7 +10,8 @@ const Nweet = ({ nweet, isOwner }) => {
 		setEditing(false);
 	}, [nweet.text]);
 
-	const date = new Date(nweet.createdAt);
+	const wasEdited = Boolean(nweet.editedAt);
+	const date = new Date(wasEdited ? nweet.editedAt : nweet.createdAt);
 	date.setHours(date.getHours() + 9);
 
 	const dateString = date.toISOString().replace("T", " ").substring(0, 19);
@@ -59,6 +60,7 @@ const Nweet = ({ nweet, isOwner }) => {
 		event.preventDefault();
 		await dbService.doc(`nweets/${nweet.id}`).update({
 			text: newNweet,
+			editedAt: Date.now(),
 		});
 	};
 
@@ -75,7 +77,13 @@ const Nweet = ({ nweet, isOwner }) => {
 				</div>
 			)}
 			{editing ? (
-				<form onSubmit={onNweetSubmit}>
+				<form onSubmit={onNweetSubmit} className={classes.editForm}>
+					<div className={classes.editControls}>
+						<button type="button" onClick={toggleEditing}>
+							Cancel
+						</button>
+						<button>Update</button>
+					</div>
 					<textarea
 						value={newNweet}
 						onChange={onNweetChange}
@@ -86,10 +94,6 @@ const Nweet = ({ nweet, isOwner }) => {
 						autoFocus
 						required
 					/>
-					<button type="button" onClick={toggleEditing}>
-						Cancel
-					</button>
-					<button>Update Nweet</button>
 				</form>
 			) : (
 				<>
@@ -102,7 +106,9 @@ const Nweet = ({ nweet, isOwner }) => {
 							className={classes.nweetImage}
 						/>
 					)}
-					<p className={classes.date}>Created at {dateString}</p>
+					<p className={classes.date}>
+						{wasEdited ? "Edited at" : "Created at"} {dateString}
+					</p>
 				</>
 			)}
 		</div>
