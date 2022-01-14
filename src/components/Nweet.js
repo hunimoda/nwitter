@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { dbService, storageService } from "../fbase";
+import classes from "./Nweet.module.css";
 
 const Nweet = ({ nweet, isOwner }) => {
 	const [editing, setEditing] = useState(false);
-	const [newNweet, setNewNweet] = useState("");
+	const [newNweet, setNewNweet] = useState(nweet.text);
 
 	useEffect(() => {
 		setEditing(false);
-	}, [nweet.content]);
+	}, [nweet.text]);
 
 	const date = new Date(nweet.createdAt);
 	date.setHours(date.getHours() + 9);
@@ -28,34 +29,61 @@ const Nweet = ({ nweet, isOwner }) => {
 	};
 
 	const toggleEditing = () => {
-		setNewNweet(nweet.content);
+		setNewNweet(nweet.text);
 		setEditing((editing) => !editing);
 	};
 
-	const onNweetChange = (event) => {
-		const {
-			target: { value },
-		} = event;
+	const adjustTextAreaHeight = (target) => {
+		target.style.height = "0px";
+		target.style.height = `${target.scrollHeight}px`;
+	};
 
-		setNewNweet(value);
+	const onNweetFocus = (event) => {
+		const { target } = event;
+		const length = target.value.length;
+
+		adjustTextAreaHeight(target);
+		target.setSelectionRange(length, length);
+	};
+
+	const onNweetChange = (event) => {
+		const { target } = event;
+
+		adjustTextAreaHeight(target);
+		if (target.value.length <= 120) {
+			setNewNweet(target.value);
+		}
 	};
 
 	const onNweetSubmit = async (event) => {
 		event.preventDefault();
 		await dbService.doc(`nweets/${nweet.id}`).update({
-			content: newNweet,
+			text: newNweet,
 		});
 	};
 
 	return (
-		<div>
+		<div className={classes.container}>
+			{isOwner && !editing && (
+				<div className={classes.controlButtons}>
+					<button onClick={onDeleteClick}>
+						<i className={`far fa-trash-alt ${classes.trash}`} />
+					</button>
+					<button onClick={toggleEditing}>
+						<i className={`fas fa-pencil-alt ${classes.edit}`} />
+					</button>
+				</div>
+			)}
 			{editing ? (
 				<form onSubmit={onNweetSubmit}>
-					<input
-						type="text"
+					<textarea
 						value={newNweet}
 						onChange={onNweetChange}
+						onFocus={onNweetFocus}
 						placeholder="Edit your nweet!"
+						className={classes.editText}
+						maxLength={120}
+						autoFocus
 						required
 					/>
 					<button type="button" onClick={toggleEditing}>
@@ -65,17 +93,16 @@ const Nweet = ({ nweet, isOwner }) => {
 				</form>
 			) : (
 				<>
-					<h4>{nweet.content}</h4>
-					{nweet.imageURL && (
-						<img src={nweet.imageURL} alt="invalid" width="250px" />
+					<p className={classes.nweetText}>{nweet.text}</p>
+					{nweet.image && (
+						<img
+							src={nweet.image}
+							alt="invalid"
+							width="250px"
+							className={classes.nweetImage}
+						/>
 					)}
-					<span>{dateString}</span>
-					{isOwner && (
-						<>
-							<button onClick={onDeleteClick}>Delete Nweet</button>
-							<button onClick={toggleEditing}>Edit Nweet</button>
-						</>
-					)}
+					<p className={classes.date}>Created at {dateString}</p>
 				</>
 			)}
 		</div>

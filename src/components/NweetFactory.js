@@ -12,7 +12,7 @@ const NweetFactory = ({ userObject }) => {
 		event.preventDefault();
 
 		const newNweet = {
-			content: nweet,
+			text: nweet,
 			createdAt: Date.now(),
 			creatorID: userObject.uid,
 		};
@@ -24,7 +24,7 @@ const NweetFactory = ({ userObject }) => {
 			const response = await fileRef.putString(image, "data_url");
 			const imageURL = await response.ref.getDownloadURL();
 
-			newNweet.imageURL = imageURL;
+			newNweet.image = imageURL;
 		}
 
 		await dbService.collection("nweets").add(newNweet);

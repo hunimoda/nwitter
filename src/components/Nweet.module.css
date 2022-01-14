@@ -1,0 +1,59 @@
+.container {
+	background: white;
+	width: var(--common-width);
+	box-sizing: border-box;
+	margin: 20px auto;
+	border-radius: 15px;
+	padding: 20px;
+}
+
+.controlButtons {
+	display: flex;
+	justify-content: end;
+}
+
+.controlButtons button {
+	width: 35px;
+	height: 35px;
+	margin-left: 10px;
+	background: transparent;
+	border-radius: 100px;
+	border: none;
+}
+
+.trash {
+	font-size: 20px;
+	color: rgb(139, 0, 0);
+}
+
+.edit {
+	font-size: 20px;
+	color: rgb(0, 0, 161);
+}
+
+.nweetText,
+.editText {
+	font-size: 18px;
+	line-height: 22px;
+	margin: 30px 0;
+}
+
+.editText {
+	border: none;
+	outline: none;
+	resize: none;
+	width: 100%;
+}
+
+.nweetImage {
+	width: 100%;
+	border-radius: 10px;
+}
+
+.date {
+	font-size: 14px;
+	color: #aaa;
+	margin: 10px;
+	text-align: end;
+	font-style: italic;
+}
