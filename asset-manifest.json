@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/hunimoda/nwitter/static/css/main.252b1ad5.css",
+    "main.js": "/hunimoda/nwitter/static/js/main.aab00fde.js",
+    "index.html": "/hunimoda/nwitter/index.html",
+    "main.252b1ad5.css.map": "/hunimoda/nwitter/static/css/main.252b1ad5.css.map",
+    "main.aab00fde.js.map": "/hunimoda/nwitter/static/js/main.aab00fde.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.252b1ad5.css",
+    "static/js/main.aab00fde.js"
+  ]
+}
